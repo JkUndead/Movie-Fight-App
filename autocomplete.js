@@ -17,15 +17,19 @@ const createAutoComplete = ({ root, renderOption, onOptionSelect, inputValue, fe
 
     const onInput = async event => {
         const items = await fetchData(event.target.value)
-
-        //check for empty items response
-        if (!items.length) {
-            dropdown.classList.remove('is-active')
-            return;
-        }
         //update the dropdown with the reponse data
         resultWrapper.innerHTML = ''
         dropdown.classList.add('is-active')
+        //check for empty items response
+        if (!items.length) {
+            const option = document.createElement('a')
+
+
+            option.classList.add('dropdown-item')
+            option.innerHTML = `<p><i>No results found</i></p>`
+            resultWrapper.appendChild(option)
+            return;
+        }
         //loop through each element
         items.forEach(item => {
             const option = document.createElement('a')
